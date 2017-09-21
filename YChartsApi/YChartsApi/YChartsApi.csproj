@@ -44,9 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiException.cs" />
-    <Compile Include="BaseClient.cs" />
-    <Compile Include="CompanyClient.cs" />
+    <Compile Include="YChartsException.cs" />
+    <Compile Include="RequestService.cs" />
+    <Compile Include="YChartsConfig.cs" />
+    <Compile Include="YChartsCompanyClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
