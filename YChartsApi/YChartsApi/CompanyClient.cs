@@ -1,6 +1,6 @@
 ﻿namespace YCharts.Api
 {
-    /// <summary>Api Client for all Company data endpoints</summary>
+    /// <summary>API client for all company data endpoints</summary>
     public sealed class CompanyClient : BaseClient
     {
         /// <summary></summary>
@@ -8,7 +8,6 @@
         public CompanyClient(string apiKey) : base(apiKey)
         {
             this.SecurityCollectionPath = "companies";
-
         }
     }
 }

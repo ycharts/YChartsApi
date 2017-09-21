@@ -54,8 +54,8 @@ namespace YCharts.Api
         private async Task<JObject> GetApiData(string path)
         {
             JObject rspData = null;
-            string completePath = string.Format("{0}/{1}",this.SecurityCollectionPath, path);
-            HttpClient client = GetClient(this.ApiKey);
+            string completePath = string.Format("{0}/{1}", this.SecurityCollectionPath, path);
+            HttpClient client = GetHTTPClient(this.ApiKey);
 
             try
             {
@@ -64,23 +64,16 @@ namespace YCharts.Api
                 if (!rsp.IsSuccessStatusCode)
                 {
                     int statusCode = (int)rsp.StatusCode;
-
-                    if (rsp.StatusCode == HttpStatusCode.RequestUriTooLong)
+                    switch(rsp.StatusCode)
                     {
-                        throw new ApiException("Too many symbol or fields, ensure 100 or less of each", statusCode);
-                    }
-                    else if (rsp.StatusCode == HttpStatusCode.Forbidden)
-                    {
-                        throw new ApiException("Api key is insufficient for requested access", statusCode);
-                    }
-                    else if (rsp.StatusCode == HttpStatusCode.Unauthorized)
-                    {
-                        throw new ApiException("Missing Api Key Header", statusCode);
-                    }
-                    // 500 and above erorr codes
-                    else
-                    {
-                        throw new ApiException("Connection Error, please try again in a moment", statusCode);
+                        case HttpStatusCode.RequestUriTooLong:
+							throw new ApiException("Too many symbol or fields, ensure 100 or less of each", statusCode);
+						case HttpStatusCode.Forbidden:
+							throw new ApiException("Api key is insufficient for requested access", statusCode);
+						case HttpStatusCode.Unauthorized:
+							throw new ApiException("Missing API key header", statusCode);
+                        default:
+                            throw new ApiException("Connection Error, please try again", statusCode);
                     }
                 }
                 // Now, Deserialize the response into a JObject
@@ -89,17 +82,19 @@ namespace YCharts.Api
             }
             catch (HttpRequestException)
             {
-                throw new ApiException("Api is down for maintence, try again in a moment");
+                throw new ApiException("API is down for maintenance, please try again");
             }
             return rspData;
         }
 
         private static bool AcceptAllCertifications(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
+            // This pads us from the effects of a CA change. This is practically
+            // not an issue, but if a client uses this library, it might be in place for years
             return true;
         }
 
-        private static HttpClient GetClient(string apiKey)
+        private static HttpClient GetHTTPClient(string apiKey)
         {
             ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
 
