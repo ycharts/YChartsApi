@@ -48,9 +48,9 @@ namespace YCharts.Api
                     switch (rsp.StatusCode)
                     {
                         case HttpStatusCode.RequestUriTooLong:
-                            throw new YChartsException("Too many symbol or fields, ensure 100 or less of each", statusCode);
+                            throw new YChartsException("Too many symbols or fields, ensure 100 or less of each", statusCode);
                         case HttpStatusCode.Forbidden:
-                            throw new YChartsException("Api key is insufficient for requested access", statusCode);
+                            throw new YChartsException("API key is insufficient for requested access", statusCode);
                         case HttpStatusCode.Unauthorized:
                             throw new YChartsException("Missing API key header", statusCode);
                         default:
@@ -77,7 +77,7 @@ namespace YCharts.Api
 
         private static HttpClient GetHTTPClient()
         {
-            if (string.IsNullOrEmpty(YChartsConfig.ApiKey))
+            if (string.IsNullOrWhiteSpace(YChartsConfig.ApiKey))
             {
                 throw new YChartsException("API key has not been provided");
 
@@ -86,8 +86,10 @@ namespace YCharts.Api
 
             if (Client == null)
             {
-                Client = new HttpClient();
-                Client.BaseAddress = new Uri(UrlBase);
+                Client = new HttpClient()
+                {
+                    BaseAddress = new Uri(UrlBase)
+                };
                 Client.DefaultRequestHeaders.Add("X-YCHARTSAUTHORIZATION", YChartsConfig.ApiKey);
             }
 

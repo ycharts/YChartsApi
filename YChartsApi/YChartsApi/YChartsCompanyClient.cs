@@ -12,7 +12,7 @@ namespace YCharts.Api
         /// <summary>Requests data from the /info endpoint</summary>
         /// <param name="symbols">List of strings of company symbols</param>
         /// <param name="fields">List of strings coresponding to info field names</param>
-        /// <returns>a JObject representing the JSON response from the server</returns>
+        /// <returns>JObject representing the JSON response from the server</returns>
         /// <remarks>Note that this method is async and can throw a variety of ApiException instances.
         /// Many of those exception instances will have an associated StatusCode value that a consumer
         /// should check.</remarks>
