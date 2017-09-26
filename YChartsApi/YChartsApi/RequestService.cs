@@ -84,14 +84,12 @@ namespace YCharts.Api
             // convert the date to a string if we have it
             if (startDate.HasValue)
             {
-                string queryDate = startDate.Value.ToString("yyyy-MM-dd");
-                queryParams["start_date"] = queryDate;
+                queryParams["start_date"] = startDate.Value.ToString("yyyy-MM-dd");
             }
 
             if (endDate.HasValue)
             {
-                string queryDate = endDate.Value.ToString("yyyy-MM-dd");
-                queryParams["end_date"] = queryDate;
+                queryParams["end_date"] = endDate.Value.ToString("yyyy-MM-dd");
             }
 
             if (queryParams.Count > 0)
