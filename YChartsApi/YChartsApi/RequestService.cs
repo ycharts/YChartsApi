@@ -61,9 +61,9 @@ namespace YCharts.Api
                 endpointPath = string.Format("{0}?{1}", endpointPath, queryParams.ToString());
             }
             // Make the Request
-            JObject infoData = await GetApiData(securityCollectionPath, endpointPath);
+            JObject pointData = await GetApiData(securityCollectionPath, endpointPath);
 
-            return infoData;
+            return pointData;
         }
 
         public static async Task<JObject> GetSeries(string securityCollectionPath, List<string> symbols, List<string> metrics, DateTime? startDate = null, DateTime? endDate = null)
@@ -99,12 +99,12 @@ namespace YCharts.Api
             }
 
             // Make the Request
-            JObject infoData = await GetApiData(securityCollectionPath, endpointPath);
+            JObject seriesData = await GetApiData(securityCollectionPath, endpointPath);
 
-            return infoData;
+            return seriesData;
         }
 
-        private static async Task<JObject> GetApiData(string securityCollectionPath, string path)
+        public static async Task<JObject> GetApiData(string securityCollectionPath, string path)
         {
             JObject rspData = null;
             string completePath = string.Format("{0}/{1}", securityCollectionPath, path);
