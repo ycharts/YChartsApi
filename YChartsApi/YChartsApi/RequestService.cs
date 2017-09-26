@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Net;
 using System.Net.Http;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
+using System.Web;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
@@ -32,10 +34,81 @@ namespace YCharts.Api
             return infoData;
         }
 
+        public static async Task<JObject> GetPoints(string securityCollectionPath, List<string> symbols, List<string> metrics, DateTime? date = null)
+        {
+            // Some basic input validation
+            if (symbols.Count < 1 || metrics.Count < 1)
+            {
+                throw new YChartsException("symbols List and metrics List must both contain at least 1 item");
+            }
+
+            // Form the URL path
+            string symbolsParam = string.Join(",", symbols);
+            string fieldsParam = string.Join(",", metrics);
+            string endpointPath = string.Format("{0}/points/{1}", symbolsParam, fieldsParam);
+            NameValueCollection queryParams = HttpUtility.ParseQueryString("");
+
+            // convert the date to a string if we have it
+            if (date.HasValue)
+            {
+                string queryDate = date.Value.ToString("yyyy-MM-dd");
+                queryParams["date"] = queryDate;
+            }
+
+            if (queryParams.Count > 0)
+            {
+                // This ToString method is special; it url encodes and adds =, &
+                endpointPath = string.Format("{0}?{1}", endpointPath, queryParams.ToString());
+            }
+            // Make the Request
+            JObject infoData = await GetApiData(securityCollectionPath, endpointPath);
+
+            return infoData;
+        }
+
+        public static async Task<JObject> GetSeries(string securityCollectionPath, List<string> symbols, List<string> metrics, DateTime? startDate = null, DateTime? endDate = null)
+        {
+            // Some basic input validation
+            if (symbols.Count < 1 || metrics.Count < 1)
+            {
+                throw new YChartsException("symbols List and metrics List must both contain at least 1 item");
+            }
+
+            // Form the URL path
+            string symbolsParam = string.Join(",", symbols);
+            string fieldsParam = string.Join(",", metrics);
+            string endpointPath = string.Format("{0}/series/{1}", symbolsParam, fieldsParam);
+            // Handle query params
+            NameValueCollection queryParams = HttpUtility.ParseQueryString("");
+
+            // convert the date to a string if we have it
+            if (startDate.HasValue)
+            {
+                queryParams["start_date"] = startDate.Value.ToString("yyyy-MM-dd");
+            }
+
+            if (endDate.HasValue)
+            {
+                queryParams["end_date"] = endDate.Value.ToString("yyyy-MM-dd");
+            }
+
+            if (queryParams.Count > 0)
+            {
+                // This ToString method is special; it url encodes and adds =, &
+                endpointPath = string.Format("{0}?{1}", endpointPath, queryParams.ToString());
+            }
+
+            // Make the Request
+            JObject infoData = await GetApiData(securityCollectionPath, endpointPath);
+
+            return infoData;
+        }
+
         private static async Task<JObject> GetApiData(string securityCollectionPath, string path)
         {
             JObject rspData = null;
             string completePath = string.Format("{0}/{1}", securityCollectionPath, path);
+ 
             HttpClient client = GetHTTPClient();
 
             try
