@@ -78,8 +78,8 @@ namespace YCharts.Api
             return await GetResourceData("spinoffs", symbols, startDate, endDate);
         }
 
-        /// <summary>interfaces directly with the Request Service 
-        /// to retrieve api data. This is used by the dividends,splits
+        /// <summary>Directly uses the Request Service 
+        /// to retrieve API data. This is used by the dividends, splits
         /// and spinoffs client methods.</summary>
         private static async Task<JObject> GetResourceData(string resourceCollectionPath, List<string> symbols, DateTime? startDate = null, DateTime? endDate = null)
         {            
