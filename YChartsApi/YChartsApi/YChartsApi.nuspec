@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>https://ycharts.com</projectUrl>
+    <description>$description$</description>
+    <releaseNotes>Initial version of the YCharts API client. This version supports interaction with our company and mutual fund endpoints.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>ycharts api client</tags>
+  </metadata>
+</package>
