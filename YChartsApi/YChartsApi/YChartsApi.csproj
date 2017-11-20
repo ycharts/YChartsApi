@@ -51,6 +51,7 @@
     <Compile Include="YChartsConfig.cs" />
     <Compile Include="YChartsCompanyClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="YChartsIndicatorClient.cs" />
     <Compile Include="YChartsMutualFundClient.cs" />
   </ItemGroup>
   <ItemGroup />
