@@ -3,7 +3,7 @@ YCharts API Client for .Net Runtime 4.5+.
 
 ## Dependencies
 - Visual Studio: this will install .Net Runtime if you don't have it already(particularly relevant for Mac OS)
-- Newtonsoft.Json(10.0.3, autoinstalled via NuGet
+- Newtonsoft.Json(10.0.3, autoinstalled via NuGet)
 
 ## Examples
 
